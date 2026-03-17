@@ -42,6 +42,8 @@ public class Bubble : MonoBehaviour
     /// <summary>Fired when this bubble is successfully popped. Payload = this bubble.</summary>
     public event Action<Bubble> OnPopped;
 
+    public static event Action OnAnyBubblePopped;
+
     // ------------------------------------------------------------------ //
     //  Private fields
     // ------------------------------------------------------------------ //
@@ -83,6 +85,7 @@ public class Bubble : MonoBehaviour
 
         // Notify LetterPuzzle (and anyone else listening)
         OnPopped?.Invoke(this);
+        OnAnyBubblePopped?.Invoke();
     }
 
     /// <summary>

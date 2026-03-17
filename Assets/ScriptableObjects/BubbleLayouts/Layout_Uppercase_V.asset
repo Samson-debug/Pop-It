@@ -13,25 +13,17 @@ MonoBehaviour:
   m_Name: Layout_Uppercase_V
   m_EditorClassIdentifier: Assembly-CSharp::BubbleLayoutData
   bubbles:
-  - position: {x: 0, y: -1.82}
-    size: 0.4
-  - position: {x: -0.91, y: -0.91}
-    size: 0.4
-  - position: {x: 0, y: -0.91}
-    size: 0.4
-  - position: {x: 0.91, y: -0.91}
-    size: 0.4
-  - position: {x: -0.91, y: 0}
-    size: 0.4
-  - position: {x: 0, y: 0}
-    size: 0.4
-  - position: {x: 0.91, y: 0}
-    size: 0.4
-  - position: {x: -0.91, y: 0.91}
-    size: 0.4
-  - position: {x: 0.91, y: 0.91}
-    size: 0.4
-  - position: {x: -0.91, y: 1.82}
-    size: 0.4
-  - position: {x: 0.91, y: 1.82}
-    size: 0.4
+  - position: {x: -0.00000013038516, y: -0.84999996}
+    size: 0.49999997
+  - position: {x: -0.60000014, y: -0.049999908}
+    size: 0.38000003
+  - position: {x: 0.5999999, y: -0.050000004}
+    size: 0.38000003
+  - position: {x: -0.90000015, y: 0.8000001}
+    size: 0.38000003
+  - position: {x: 0.8999999, y: 0.75000006}
+    size: 0.38000003
+  - position: {x: -1.2000002, y: 1.5999999}
+    size: 0.38000003
+  - position: {x: 1.1999999, y: 1.5999999}
+    size: 0.38000003

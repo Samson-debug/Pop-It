@@ -16,6 +16,11 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     // ------------------------------------------------------------------ //
+    //  Global Events
+    // ------------------------------------------------------------------ //
+    public static event System.Action OnGameStartedEvent;
+
+    // ------------------------------------------------------------------ //
     //  Singleton
     // ------------------------------------------------------------------ //
     public static GameManager Instance { get; private set; }
@@ -122,6 +127,8 @@ public class GameManager : MonoBehaviour
             uiManager.SwitchTraySprites(uppercase);
             uiManager.RefreshAll(_completedFlags, _currentIndex);
         }
+
+        OnGameStartedEvent?.Invoke();
     }
 
     /// <summary>

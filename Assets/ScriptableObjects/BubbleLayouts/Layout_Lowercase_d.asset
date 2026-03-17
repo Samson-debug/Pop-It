@@ -13,29 +13,27 @@ MonoBehaviour:
   m_Name: Layout_Lowercase_d
   m_EditorClassIdentifier: Assembly-CSharp::BubbleLayoutData
   bubbles:
-  - position: {x: -0.91, y: -1.82}
+  - position: {x: 0.14999977, y: -0.85000014}
+    size: 0.18000002
+  - position: {x: -0.20000038, y: -1.075}
+    size: 0.2
+  - position: {x: -0.7500001, y: -1.1500001}
+    size: 0.28
+  - position: {x: 0.74999994, y: -1.0500002}
     size: 0.4
-  - position: {x: 0.91, y: -1.82}
+  - position: {x: -1.2500002, y: -0.7000001}
+    size: 0.36000004
+  - position: {x: 0.6999999, y: -0.20000014}
     size: 0.4
-  - position: {x: -1.82, y: -0.91}
+  - position: {x: -1.2000003, y: 0.01}
+    size: 0.33
+  - position: {x: 0.6999999, y: 0.64999986}
     size: 0.4
-  - position: {x: -0.91, y: -0.91}
-    size: 0.4
-  - position: {x: 0, y: -0.91}
-    size: 0.4
-  - position: {x: 0.91, y: -0.91}
-    size: 0.4
-  - position: {x: -1.82, y: 0}
-    size: 0.4
-  - position: {x: -0.91, y: 0}
-    size: 0.4
-  - position: {x: 0.91, y: 0}
-    size: 0.4
-  - position: {x: -0.91, y: 0.91}
-    size: 0.4
-  - position: {x: 0, y: 0.91}
-    size: 0.4
-  - position: {x: 0.91, y: 0.91}
-    size: 0.4
-  - position: {x: 0.91, y: 1.82}
+  - position: {x: -0.8500003, y: 0.5499999}
+    size: 0.26
+  - position: {x: -0.40000042, y: 0.7499999}
+    size: 0.21000001
+  - position: {x: 0.04999981, y: 0.7499999}
+    size: 0.18000002
+  - position: {x: 0.6999999, y: 1.4999999}
     size: 0.4
