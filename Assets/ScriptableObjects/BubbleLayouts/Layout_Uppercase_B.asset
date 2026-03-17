@@ -1,0 +1,41 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6901f3f1aee284bdcbaeaf22ca80f091, type: 3}
+  m_Name: Layout_Uppercase_B
+  m_EditorClassIdentifier: Assembly-CSharp::BubbleLayoutData
+  bubbles:
+  - position: {x: -0.96, y: -1.11}
+    size: 0.28
+  - position: {x: -0.14, y: -1.26}
+    size: 0.26
+  - position: {x: 0.75, y: -1.12}
+    size: 0.3
+  - position: {x: -0.98, y: -0.427}
+    size: 0.3
+  - position: {x: 1.027, y: -0.353}
+    size: 0.3
+  - position: {x: -0.98, y: 0.26}
+    size: 0.3
+  - position: {x: -0.26, y: 0.26}
+    size: 0.22
+  - position: {x: 0.38, y: 0.29}
+    size: 0.28
+  - position: {x: -0.98, y: 0.91}
+    size: 0.3
+  - position: {x: 0.89, y: 0.92}
+    size: 0.3
+  - position: {x: -0.88, y: 1.56}
+    size: 0.28
+  - position: {x: -0.14, y: 1.75}
+    size: 0.25
+  - position: {x: 0.64, y: 1.62}
+    size: 0.28

@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8471cf0546bce4ce5a5f10729d59c669, type: 3}
+  m_Name: Letter_Uppercase_Z
+  m_EditorClassIdentifier: Assembly-CSharp::LetterData
+  letter: 90
+  isUppercase: 1
+  letterSprite: {fileID: 21300000, guid: 25030c267ecc34c55b21472d051cc5a3, type: 3}
+  bubbleColor: 0
+  bubbleLayout: {fileID: 11400000, guid: 0f62e9bd20b85438ebd859ddd14d51a9, type: 2}
