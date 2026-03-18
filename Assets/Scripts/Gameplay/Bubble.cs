@@ -134,7 +134,15 @@ public class Bubble : MonoBehaviour
         _baseScale = transform.localScale;
 
         if (unpoppedSprite != null)
+        {
             _sr.sprite = unpoppedSprite;
+
+            // Fit the collider to the sprite's actual pixel bounds.
+            // sprite.bounds.extents.x is the half-width in local units (scale-independent),
+            // which is exactly what CircleCollider2D.radius expects.
+            _col.offset = Vector2.zero;
+            _col.radius = unpoppedSprite.bounds.extents.x;
+        }
     }
 
     // ------------------------------------------------------------------ //
