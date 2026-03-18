@@ -39,11 +39,24 @@ public class LetterPuzzle : MonoBehaviour
     public event Action<LetterData> OnLetterCompleted;
 
     // ------------------------------------------------------------------ //
+    //  Inspector — Puzzle animation
+    // ------------------------------------------------------------------ //
+    [Header("Puzzle Squash & Stretch")]
+    [Tooltip("X spread when the puzzle squashes on a pop-in tap.")]
+    public float puzzleSquashX = 1.06f;
+    [Tooltip("Y compress when the puzzle squashes on a pop-in tap.")]
+    public float puzzleSquashY = 0.92f;
+    [Tooltip("Overshoot bounce multiplier (applied in the opposite axis).")]
+    public float puzzleBounce  = 1.03f;
+
+    // ------------------------------------------------------------------ //
     //  Private state
     // ------------------------------------------------------------------ //
     private readonly List<Bubble> _bubbles = new List<Bubble>();
     private int _poppedCount;
     private bool _completing;   // guard: prevent re-triggering completion
+    private Vector3 _baseScale;
+    private Coroutine _puzzleAnim;
 
     // ------------------------------------------------------------------ //
     //  Unity lifecycle
@@ -74,7 +87,8 @@ public class LetterPuzzle : MonoBehaviour
     {
         Data = letterData;
         _poppedCount = 0;
-        _completing = false;
+        _completing  = false;
+        _baseScale   = transform.localScale;
 
         // ---- Letter background sprite ----
         if (letterBackground == null)
@@ -127,7 +141,8 @@ public class LetterPuzzle : MonoBehaviour
             b.poppedSprite   = poppedSprite;
 
             // Subscribe before ResetBubble in case something fires immediately
-            b.OnPopped += OnBubblePopped;
+            b.OnPopped    += OnBubblePopped;
+            b.OnUnpopped  += OnBubbleUnpopped;
 
             // Apply sprites and re-enable collider
             b.ResetBubble();
@@ -157,11 +172,16 @@ public class LetterPuzzle : MonoBehaviour
         if (hit == null) return;
 
         Bubble bubble = hit.GetComponent<Bubble>();
-        if (bubble != null && _bubbles.Contains(bubble))
-            bubble.TryPop();
+        if (bubble == null || !_bubbles.Contains(bubble)) return;
+
+        bubble.TryPop();
+
+        // Animate the whole puzzle — direction matches bubble's new state
+        if (_puzzleAnim != null) StopCoroutine(_puzzleAnim);
+        _puzzleAnim = StartCoroutine(PuzzleSquashAndStretch(bubble.IsPopped));
     }
 
-    /// <summary>Called when any bubble fires its OnPopped event.</summary>
+    /// <summary>Called when any bubble is toggled into the popped-in state.</summary>
     private void OnBubblePopped(Bubble b)
     {
         _poppedCount++;
@@ -170,6 +190,48 @@ public class LetterPuzzle : MonoBehaviour
         {
             _completing = true;
             StartCoroutine(CompleteRoutine());
+        }
+    }
+
+    /// <summary>Called when any bubble is toggled back to the raised (popped-out) state.</summary>
+    private void OnBubbleUnpopped(Bubble b)
+    {
+        _poppedCount--;
+    }
+
+    /// <summary>
+    /// Subtle squash-and-stretch on the whole LetterPuzzle when any bubble is tapped.
+    /// Pop-in  → squash wide+short, bounce tall+thin, settle.
+    /// Pop-out → stretch tall+thin, bounce wide+short, settle.
+    /// </summary>
+    private IEnumerator PuzzleSquashAndStretch(bool poppingIn)
+    {
+        Vector3 orig = _baseScale;
+
+        Vector3 punch = poppingIn
+            ? new Vector3(orig.x * puzzleSquashX, orig.y * puzzleSquashY, orig.z)
+            : new Vector3(orig.x / puzzleSquashX, orig.y / puzzleSquashY, orig.z);
+
+        Vector3 bounce = poppingIn
+            ? new Vector3(orig.x / puzzleBounce,  orig.y * puzzleBounce,  orig.z)
+            : new Vector3(orig.x * puzzleBounce,  orig.y / puzzleBounce,  orig.z);
+
+        yield return LerpScale(orig,   punch,  0.04f);
+        yield return LerpScale(punch,  bounce, 0.07f);
+        yield return LerpScale(bounce, orig,   0.09f);
+
+        transform.localScale = orig;
+        _puzzleAnim = null;
+    }
+
+    private IEnumerator LerpScale(Vector3 from, Vector3 to, float duration)
+    {
+        float t = 0f;
+        while (t < 1f)
+        {
+            t += Time.deltaTime / duration;
+            transform.localScale = Vector3.Lerp(from, to, Mathf.Clamp01(t));
+            yield return null;
         }
     }
 

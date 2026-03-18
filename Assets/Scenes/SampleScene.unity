@@ -1948,16 +1948,16 @@ MonoBehaviour:
   - {fileID: 11400000, guid: 904dcb221b166431da8ab2812003d06f, type: 2}
   - {fileID: 11400000, guid: f46bcc6001e65471cb6ecfd26b549f34, type: 2}
   - {fileID: 11400000, guid: febb44b26a9c341069de2f4c1451cfcc, type: 2}
-  blueUnpopped: {fileID: -5147892708911832928, guid: a7bd5aac560454dc6920ae18cf5e0940, type: 3}
-  greenUnpopped: {fileID: 639631423250665397, guid: 489cc3c6dbc3f4a82a08108a8fe4716e, type: 3}
-  pinkUnpopped: {fileID: -2162054225871756238, guid: d56f1176d0cf0473fb41b1d7e70c73fb, type: 3}
-  redUnpopped: {fileID: 311926737706019549, guid: 5c148d658f4ce4f2580dfbc20b52b9bd, type: 3}
-  yellowUnpopped: {fileID: 1782729641292099875, guid: 35d2bdd4d7ada404198cbe14542055f3, type: 3}
-  bluePopped: {fileID: 327419684080104640, guid: 4daff4a27e0de48bcaa6c141131cf19f, type: 3}
-  greenPopped: {fileID: 4131370245292468612, guid: 7637338e5c8c44d10843d5682e67342e, type: 3}
-  pinkPopped: {fileID: -8782323351696725165, guid: c9192ccbcac2f4b4eacd7aca5ceefa33, type: 3}
-  redPopped: {fileID: 7570138762486858766, guid: 4dc8cf7416f7049abbc7abb313412355, type: 3}
-  yellowPopped: {fileID: 1254343962978232563, guid: eb72d0ba8b5794db0912751ac199ef9c, type: 3}
+  blueUnpopped: {fileID: 327419684080104640, guid: 4daff4a27e0de48bcaa6c141131cf19f, type: 3}
+  greenUnpopped: {fileID: 4131370245292468612, guid: 7637338e5c8c44d10843d5682e67342e, type: 3}
+  pinkUnpopped: {fileID: -8782323351696725165, guid: c9192ccbcac2f4b4eacd7aca5ceefa33, type: 3}
+  redUnpopped: {fileID: 7570138762486858766, guid: 4dc8cf7416f7049abbc7abb313412355, type: 3}
+  yellowUnpopped: {fileID: 1254343962978232563, guid: eb72d0ba8b5794db0912751ac199ef9c, type: 3}
+  bluePopped: {fileID: -5147892708911832928, guid: a7bd5aac560454dc6920ae18cf5e0940, type: 3}
+  greenPopped: {fileID: 639631423250665397, guid: 489cc3c6dbc3f4a82a08108a8fe4716e, type: 3}
+  pinkPopped: {fileID: -2162054225871756238, guid: d56f1176d0cf0473fb41b1d7e70c73fb, type: 3}
+  redPopped: {fileID: 311926737706019549, guid: 5c148d658f4ce4f2580dfbc20b52b9bd, type: 3}
+  yellowPopped: {fileID: 1782729641292099875, guid: 35d2bdd4d7ada404198cbe14542055f3, type: 3}
   letterPuzzlePrefab: {fileID: 7467058820580732896, guid: 204fd4c7652d940bfaa9e4b56587fe99, type: 3}
   bubblePrefab: {fileID: 2011484706169344717, guid: 918053f9367df446698d08b599961a12, type: 3}
   letterPuzzleArea: {fileID: 1840466333}
