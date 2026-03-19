@@ -137,6 +137,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LetterButtonUI
   button: {fileID: 7631706081236520446}
   letterImage: {fileID: 2059352377816140268}
+  letterRect: {fileID: 0}
   checkmarkOverlay: {fileID: 2340647584366434208}
 --- !u!1 &2340647584366434208
 GameObject:
@@ -278,7 +279,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 5201585387882740598, guid: 31644158e335042b586d02d32bcda061, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 7de238cf61feb48f7b8b97de6767592a, type: 3}
   m_Type: 0
   m_PreserveAspect: 1
   m_FillCenter: 1

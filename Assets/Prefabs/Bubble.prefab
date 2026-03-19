@@ -129,7 +129,7 @@ CircleCollider2D:
   m_CompositeOperation: 0
   m_CompositeOrder: 0
   m_Offset: {x: 0, y: 0}
-  m_Radius: 0.48
+  m_Radius: 1
 --- !u!82 &2461112146148636935
 AudioSource:
   m_ObjectHideFlags: 0
@@ -242,3 +242,10 @@ MonoBehaviour:
   unpoppedSprite: {fileID: -5147892708911832928, guid: a7bd5aac560454dc6920ae18cf5e0940, type: 3}
   poppedSprite: {fileID: 327419684080104640, guid: 4daff4a27e0de48bcaa6c141131cf19f, type: 3}
   audioSource: {fileID: 2461112146148636935}
+  squashY: 0.75
+  squashX: 1.18
+  bounceY: 1.08
+  bounceX: 0.92
+  phasePunchDuration: 0.04
+  phaseBounceDuration: 0.07
+  phaseSettleDuration: 0.09

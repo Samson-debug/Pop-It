@@ -66,6 +66,14 @@ public class GameManager : MonoBehaviour
     [Tooltip("Drag the UIManager component here.")]
     public UIManager uiManager;
 
+    [Header("Animation Setup")]
+    [Tooltip("Scene object for the jiggling alphabet animation. Expected to have a SpriteRenderer and ParticleSystems.")]
+    public GameObject jiggleLetterObject;
+    
+    private SpriteRenderer _jiggleLetterRenderer;
+    private ParticleSystem[] _jiggleParticles;
+    private bool _animationInitialized;
+
     // ------------------------------------------------------------------ //
     //  PlayerPrefs keys
     // ------------------------------------------------------------------ //
@@ -211,16 +219,152 @@ public class GameManager : MonoBehaviour
         _completedFlags[_currentIndex] = true;
         SaveProgress();
 
+        StartCoroutine(AnimateAlphabetAndAdvance(completedData));
+    }
+
+    private IEnumerator AnimateAlphabetAndAdvance(LetterData data)
+    {
+        if (!_animationInitialized && jiggleLetterObject != null)
+        {
+            _jiggleLetterRenderer = jiggleLetterObject.GetComponent<SpriteRenderer>();
+            if (_jiggleLetterRenderer == null)
+                _jiggleLetterRenderer = jiggleLetterObject.GetComponentInChildren<SpriteRenderer>();
+
+            _jiggleParticles = jiggleLetterObject.GetComponentsInChildren<ParticleSystem>();
+            _animationInitialized = true;
+        }
+
+        GameObject animObj = jiggleLetterObject;
+        SpriteRenderer sr = _jiggleLetterRenderer;
+
+        // Fallback if no object is assigned
+        bool isFallback = false;
+        if (animObj == null || sr == null)
+        {
+            animObj = new GameObject("JiggleLetter");
+            sr = animObj.AddComponent<SpriteRenderer>();
+            sr.sortingOrder = 1000;
+            isFallback = true;
+        }
+
+        animObj.SetActive(true);
+        sr.sprite = data.letterSprite;
+
+        if (_jiggleParticles != null)
+        {
+            foreach (var p in _jiggleParticles)
+            {
+                p.Play();
+            }
+        }
+
+        Vector3 unscaledSize = sr.sprite.bounds.size;
+        Vector3 originalScale = Vector3.one;
+
+        if (_currentPuzzle != null)
+        {
+            if (_currentPuzzle.letterBackground != null)
+            {
+                animObj.transform.position = _currentPuzzle.letterBackground.transform.position;
+                animObj.transform.rotation = _currentPuzzle.letterBackground.transform.rotation;
+                originalScale = _currentPuzzle.letterBackground.transform.lossyScale;
+            }
+            
+            _currentPuzzle.OnLetterCompleted -= HandleLetterCompleted;
+            Destroy(_currentPuzzle.gameObject);
+            _currentPuzzle = null;
+        }
+
+        animObj.transform.localScale = originalScale;
+        Quaternion originalRotation = animObj.transform.rotation;
+
+        // Jiggle Phase
+        float waitTime = 1f;
+        float tiltAmount = 15f;
+        float tiltSpeed = 15f;
+        float timer = 0f;
+
+        while (timer < waitTime)
+        {
+            timer += Time.deltaTime;
+            float angle = Mathf.Sin(Time.time * tiltSpeed) * tiltAmount;
+            animObj.transform.rotation = originalRotation * Quaternion.Euler(0, 0, angle);
+            yield return null;
+        }
+
+        animObj.transform.rotation = originalRotation;
+
+        // Move Phase
+        RectTransform targetRect = uiManager != null ? uiManager.GetLetterTargetRect(_currentIndex) : null;
+        if (targetRect != null)
+        {
+            Vector3 moveStart = animObj.transform.position;
+            Vector3 moveEnd = targetRect.position;
+
+            Canvas rootCanvas = targetRect.GetComponentInParent<Canvas>();
+            if (rootCanvas != null && rootCanvas.rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay)
+            {
+                if (Camera.main != null)
+                {
+                    Vector3 screenPoint = targetRect.position;
+                    screenPoint.z = Mathf.Abs(Camera.main.transform.position.z);
+                    moveEnd = Camera.main.ScreenToWorldPoint(screenPoint);
+                    moveEnd.z = 0f;
+                }
+            }
+            else
+            {
+                moveEnd.z = 0f;
+            }
+
+            Vector3 targetScale = originalScale;
+            if (unscaledSize.x > 0.001f && unscaledSize.y > 0.001f)
+            {
+                Vector3 targetWorldSize = new Vector3(
+                    targetRect.rect.width * targetRect.lossyScale.x,
+                    targetRect.rect.height * targetRect.lossyScale.y,
+                    1f
+                );
+                
+                if (rootCanvas != null && rootCanvas.rootCanvas.renderMode == RenderMode.ScreenSpaceOverlay && Camera.main != null)
+                {
+                    Vector3 p1 = Camera.main.ScreenToWorldPoint(new Vector3(0, 0, Mathf.Abs(Camera.main.transform.position.z)));
+                    Vector3 p2 = Camera.main.ScreenToWorldPoint(new Vector3(targetRect.rect.width * targetRect.lossyScale.x, targetRect.rect.height * targetRect.lossyScale.y, Mathf.Abs(Camera.main.transform.position.z)));
+                    targetWorldSize = new Vector3(Mathf.Abs(p2.x - p1.x), Mathf.Abs(p2.y - p1.y), 1f);
+                }
+
+                targetScale = new Vector3(
+                    targetWorldSize.x / unscaledSize.x,
+                    targetWorldSize.y / unscaledSize.y,
+                    originalScale.z
+                );
+            }
+
+            float moveTime = 0f;
+            float moveDuration = 1f;
+
+            while (moveTime < moveDuration)
+            {
+                moveTime += Time.deltaTime;
+                float t = Mathf.SmoothStep(0, 1, moveTime / moveDuration);
+
+                animObj.transform.position = Vector3.Lerp(moveStart, moveEnd, t);
+                animObj.transform.localScale = Vector3.Lerp(originalScale, targetScale, t);
+
+                yield return null;
+            }
+        }
+
+        if (isFallback)
+            Destroy(animObj);
+        else
+            animObj.SetActive(false);
+
         if (uiManager != null)
             uiManager.MarkLetterComplete(_currentIndex);
 
-        StartCoroutine(AdvanceAfterDelay(1.5f));
-    }
-
-    private IEnumerator AdvanceAfterDelay(float delay)
-    {
-        yield return new WaitForSeconds(delay);
-
+        yield return new WaitForSeconds(0.2f);
+        
         // Cycle: after Z go back to A
         int next = (_currentIndex + 1) % 26;
         _currentIndex = next;

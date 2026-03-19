@@ -115,6 +115,14 @@ public class UIManager : MonoBehaviour
             _letterButtons[index].ShowCheckmark(true);
     }
 
+    /// <summary>Returns the RectTransform of the target letterImage.</summary>
+    public RectTransform GetLetterTargetRect(int index)
+    {
+        if (_letterButtons != null && index >= 0 && index < 26 && _letterButtons[index] != null)
+            return _letterButtons[index].letterImage.rectTransform;
+        return null;
+    }
+
     /// <summary>
     /// Full refresh: sets checkmarks and highlight from saved state.
     /// Called on start or after a mode switch.
