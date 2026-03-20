@@ -41,19 +41,14 @@ public class LetterPuzzle : MonoBehaviour
     // ------------------------------------------------------------------ //
     //  Inspector — Puzzle animation
     // ------------------------------------------------------------------ //
-    [Header("Puzzle Squash & Stretch")]
-    [Tooltip("X spread when the puzzle squashes on a pop-in tap.")]
-    public float puzzleSquashX = 1.06f;
-    [Tooltip("Y compress when the puzzle squashes on a pop-in tap.")]
-    public float puzzleSquashY = 0.92f;
-    [Tooltip("Overshoot bounce multiplier (applied in the opposite axis).")]
-    public float puzzleBounce  = 1.03f;
+    [Header("Puzzle Scale Punch")]
+    [Tooltip("How much the puzzle scales down on each tap (e.g. 0.92 = 92%).")]
+    public float puzzlePunchScale = 0.92f;
 
     // ------------------------------------------------------------------ //
     //  Private state
     // ------------------------------------------------------------------ //
     private readonly List<Bubble> _bubbles = new List<Bubble>();
-    private int _poppedCount;
     private bool _completing;   // guard: prevent re-triggering completion
     private Vector3 _baseScale;
     private Coroutine _puzzleAnim;
@@ -86,8 +81,7 @@ public class LetterPuzzle : MonoBehaviour
     public void Initialize(LetterData letterData, Bubble bubblePrefab)
     {
         Data = letterData;
-        _poppedCount = 0;
-        _completing  = false;
+        _completing = false;
         _baseScale   = transform.localScale;
 
         // ---- Letter background sprite ----
@@ -176,49 +170,36 @@ public class LetterPuzzle : MonoBehaviour
 
         bubble.TryPop();
 
-        // Animate the whole puzzle — direction matches bubble's new state
+        // Animate the whole puzzle on every tap
         if (_puzzleAnim != null) StopCoroutine(_puzzleAnim);
-        _puzzleAnim = StartCoroutine(PuzzleSquashAndStretch(bubble.IsPopped));
+        _puzzleAnim = StartCoroutine(PuzzleScalePunch());
     }
 
-    /// <summary>Called when any bubble is toggled into the popped-in state.</summary>
-    private void OnBubblePopped(Bubble b)
-    {
-        _poppedCount++;
+    /// <summary>Called whenever any bubble changes state. Checks if all are now popped in.</summary>
+    private void OnBubblePopped(Bubble b)   => CheckCompletion();
+    private void OnBubbleUnpopped(Bubble b) => CheckCompletion();
 
-        if (_poppedCount >= _bubbles.Count && !_completing)
-        {
-            _completing = true;
-            StartCoroutine(CompleteRoutine());
-        }
-    }
-
-    /// <summary>Called when any bubble is toggled back to the raised (popped-out) state.</summary>
-    private void OnBubbleUnpopped(Bubble b)
+    private void CheckCompletion()
     {
-        _poppedCount--;
+        if (_completing) return;
+
+        foreach (Bubble b in _bubbles)
+            if (!b.IsPopped) return;   // at least one is still raised — not done yet
+
+        _completing = true;
+        StartCoroutine(CompleteRoutine());
     }
 
     /// <summary>
-    /// Subtle squash-and-stretch on the whole LetterPuzzle when any bubble is tapped.
-    /// Pop-in  → squash wide+short, bounce tall+thin, settle.
-    /// Pop-out → stretch tall+thin, bounce wide+short, settle.
+    /// Simple scale-down then scale-back-up on the whole LetterPuzzle whenever a bubble is tapped.
     /// </summary>
-    private IEnumerator PuzzleSquashAndStretch(bool poppingIn)
+    private IEnumerator PuzzleScalePunch()
     {
-        Vector3 orig = _baseScale;
+        Vector3 orig  = _baseScale;
+        Vector3 small = orig * puzzlePunchScale;
 
-        Vector3 punch = poppingIn
-            ? new Vector3(orig.x * puzzleSquashX, orig.y * puzzleSquashY, orig.z)
-            : new Vector3(orig.x / puzzleSquashX, orig.y / puzzleSquashY, orig.z);
-
-        Vector3 bounce = poppingIn
-            ? new Vector3(orig.x / puzzleBounce,  orig.y * puzzleBounce,  orig.z)
-            : new Vector3(orig.x * puzzleBounce,  orig.y / puzzleBounce,  orig.z);
-
-        yield return LerpScale(orig,   punch,  0.04f);
-        yield return LerpScale(punch,  bounce, 0.07f);
-        yield return LerpScale(bounce, orig,   0.09f);
+        yield return LerpScale(orig,  small, 0.05f);
+        yield return LerpScale(small, orig,  0.08f);
 
         transform.localScale = orig;
         _puzzleAnim = null;
