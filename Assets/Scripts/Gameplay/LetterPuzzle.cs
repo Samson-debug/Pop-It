@@ -43,7 +43,7 @@ public class LetterPuzzle : MonoBehaviour
     // ------------------------------------------------------------------ //
     [Header("Puzzle Scale Punch")]
     [Tooltip("How much the puzzle scales down on each tap (e.g. 0.92 = 92%).")]
-    public float puzzlePunchScale = 0.92f;
+    public float puzzlePunchScale = 0.97f;
 
     // ------------------------------------------------------------------ //
     //  Private state
