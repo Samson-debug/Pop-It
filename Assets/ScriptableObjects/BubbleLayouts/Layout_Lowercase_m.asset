@@ -14,24 +14,24 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::BubbleLayoutData
   bubbles:
   - position: {x: -1.45, y: -0.65000015}
-    size: 0.4
+    size: 0.37
   - position: {x: 0.049999952, y: -0.7500001}
-    size: 0.4
+    size: 0.37
   - position: {x: 1.5000001, y: -0.7500001}
-    size: 0.4
+    size: 0.37
   - position: {x: 0.049999952, y: 0.099999905}
-    size: 0.4
+    size: 0.37
   - position: {x: 1.5000001, y: 0.099999905}
-    size: 0.4
+    size: 0.37
   - position: {x: -1.45, y: 0.24999988}
-    size: 0.4
+    size: 0.37
   - position: {x: -0.70000005, y: 1.15}
-    size: 0.25
+    size: 0.23125
   - position: {x: 0.7500001, y: 1.15}
-    size: 0.25
+    size: 0.23125
   - position: {x: -0.00000008940697, y: 0.9499999}
-    size: 0.39
+    size: 0.36075
   - position: {x: 1.45, y: 0.9499999}
-    size: 0.39
+    size: 0.36075
   - position: {x: -1.45, y: 1.1499997}
-    size: 0.4
+    size: 0.37

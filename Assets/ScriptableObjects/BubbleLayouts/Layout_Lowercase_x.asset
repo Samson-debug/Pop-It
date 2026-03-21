@@ -13,14 +13,14 @@ MonoBehaviour:
   m_Name: Layout_Lowercase_x
   m_EditorClassIdentifier: Assembly-CSharp::BubbleLayoutData
   bubbles:
-  - position: {x: -1.1000001, y: -1.0500002}
-    size: 0.4
-  - position: {x: 1.1999999, y: -1.0000001}
-    size: 0.4
-  - position: {x: -0.65000015, y: -0.4000001}
-    size: 0.4
-  - position: {x: 0.6999999, y: -0.35000014}
-    size: 0.4
+  - position: {x: -1.05, y: -0.96}
+    size: 0.36
+  - position: {x: 1.15, y: -0.97}
+    size: 0.36
+  - position: {x: -0.61, y: -0.33}
+    size: 0.36
+  - position: {x: 0.67, y: -0.31}
+    size: 0.36
   - position: {x: -0.00000011920929, y: 0.14999981}
     size: 0.3
   - position: {x: 0.64999986, y: 0.6500001}

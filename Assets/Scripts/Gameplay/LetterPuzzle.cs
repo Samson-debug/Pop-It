@@ -187,7 +187,7 @@ public class LetterPuzzle : MonoBehaviour
             if (!b.IsPopped) return;   // at least one is still raised — not done yet
 
         _completing = true;
-        StartCoroutine(CompleteRoutine());
+        OnLetterCompleted?.Invoke(Data);
     }
 
     /// <summary>
@@ -214,19 +214,5 @@ public class LetterPuzzle : MonoBehaviour
             transform.localScale = Vector3.Lerp(from, to, Mathf.Clamp01(t));
             yield return null;
         }
-    }
-
-    /// <summary>
-    /// Plays the completion sound, waits for it to finish, then fires OnLetterCompleted.
-    /// </summary>
-    private IEnumerator CompleteRoutine()
-    {
-        if (AudioManager.Instance != null)
-            AudioManager.Instance.PlayLetterComplete();
-
-        // Wait long enough for the jingle to play before transitioning
-        yield return new WaitForSeconds(1.2f);
-
-        OnLetterCompleted?.Invoke(Data);
     }
 }

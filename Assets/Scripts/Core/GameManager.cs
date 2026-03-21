@@ -250,6 +250,9 @@ public class GameManager : MonoBehaviour
         animObj.SetActive(true);
         sr.sprite = data.letterSprite;
 
+        if (AudioManager.Instance != null)
+            AudioManager.Instance.PlayLetterComplete();
+
         if (_jiggleParticles != null)
         {
             foreach (var p in _jiggleParticles)
