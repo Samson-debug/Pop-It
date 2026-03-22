@@ -11,12 +11,14 @@ public class NotActive : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnGameStartedEvent += HandleGameStarted;
+        GameManager.OnReturnedToLobbyEvent += HandleReturnedToLobby;
         Bubble.OnAnyBubblePopped += HandleBubblePopped;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStartedEvent -= HandleGameStarted;
+        GameManager.OnReturnedToLobbyEvent -= HandleReturnedToLobby;
         Bubble.OnAnyBubblePopped -= HandleBubblePopped;
     }
 
@@ -31,6 +33,13 @@ public class NotActive : MonoBehaviour
     private void HandleBubblePopped()
     {
         timer = 0f;
+        if (objectToTurnOn != null)
+            objectToTurnOn.SetActive(false);
+    }
+
+    private void HandleReturnedToLobby()
+    {
+        isGameStarted = false;
         if (objectToTurnOn != null)
             objectToTurnOn.SetActive(false);
     }
@@ -62,7 +71,7 @@ public class NotActive : MonoBehaviour
 
     private void PositionOnUnpoppedBubble()
     {
-        Bubble[] bubbles = FindObjectsOfType<Bubble>();
+        Bubble[] bubbles = FindObjectsByType<Bubble>(FindObjectsInactive.Exclude, FindObjectsSortMode.None);
         foreach (var bubble in bubbles)
         {
             if (!bubble.IsPopped)

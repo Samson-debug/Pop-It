@@ -49,6 +49,10 @@ public class LobbyManager : MonoBehaviour
     [Tooltip("Button that launches Small / Lowercase letter mode.")]
     public Button smallButton;
 
+    [Header("Gameplay Buttons")]
+    [Tooltip("Button that returns to the lobby.")]
+    public Button homeButton;
+
     [Header("Info Panel (shared between lobby and gameplay)")]
     public Button infoButton;
     public GameObject infoPanel;
@@ -67,6 +71,9 @@ public class LobbyManager : MonoBehaviour
 
         if (smallButton != null)
             smallButton.onClick.AddListener(OnSmallLettersPressed);
+
+        if (homeButton != null)
+            homeButton.onClick.AddListener(OnHomePressed);
 
         if (infoButton != null)
             infoButton.onClick.AddListener(ToggleInfoPanel);
@@ -87,6 +94,13 @@ public class LobbyManager : MonoBehaviour
     private void OnSmallLettersPressed()
     {
         LaunchGame(uppercase: false);
+    }
+
+    private void OnHomePressed()
+    {
+        if (GameManager.Instance != null)
+            GameManager.Instance.ReturnToLobby();
+        ShowLobby();
     }
 
     // ------------------------------------------------------------------ //

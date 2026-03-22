@@ -19,6 +19,7 @@ public class GameManager : MonoBehaviour
     //  Global Events
     // ------------------------------------------------------------------ //
     public static event System.Action OnGameStartedEvent;
+    public static event System.Action OnReturnedToLobbyEvent;
 
     // ------------------------------------------------------------------ //
     //  Singleton
@@ -115,6 +116,30 @@ public class GameManager : MonoBehaviour
     // ------------------------------------------------------------------ //
     //  Public API — called by LobbyManager / UIManager
     // ------------------------------------------------------------------ //
+
+    /// <summary>
+    /// Cleans up the current puzzle and stops any ongoing animations.
+    /// Called when returning to the lobby.
+    /// </summary>
+    public void ReturnToLobby()
+    {
+        StopAllCoroutines();
+
+        if (_currentPuzzle != null)
+        {
+            _currentPuzzle.OnLetterCompleted -= HandleLetterCompleted;
+            Destroy(_currentPuzzle.gameObject);
+            _currentPuzzle = null;
+        }
+
+        // Hide jiggle object if it's currently active
+        if (jiggleLetterObject != null)
+        {
+            jiggleLetterObject.SetActive(false);
+        }
+
+        OnReturnedToLobbyEvent?.Invoke();
+    }
 
     /// <summary>
     /// Called by LobbyManager when the player picks Capital or Small letters.

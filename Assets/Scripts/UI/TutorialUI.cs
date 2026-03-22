@@ -13,13 +13,14 @@ public class TutorialUI : MonoBehaviour
     private void OnEnable()
     {
         GameManager.OnGameStartedEvent += HandleGameStart;
-        Bubble.OnAnyBubblePopped += HandleBubblePopped;
+        GameManager.OnReturnedToLobbyEvent += DeactivateInstructions;
+        Bubble.OnAnyBubblePopped += DeactivateInstructions;
     }
 
     private void OnDisable()
     {
         GameManager.OnGameStartedEvent -= HandleGameStart;
-        Bubble.OnAnyBubblePopped -= HandleBubblePopped;
+        Bubble.OnAnyBubblePopped -= DeactivateInstructions;
     }
 
     private void HandleGameStart()
@@ -28,7 +29,7 @@ public class TutorialUI : MonoBehaviour
             instructionsPanel.SetActive(true);
     }
 
-    private void HandleBubblePopped()
+    private void DeactivateInstructions()
     {
         if (instructionsPanel != null && instructionsPanel.activeSelf)
         {

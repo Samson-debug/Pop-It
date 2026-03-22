@@ -15,5 +15,5 @@ MonoBehaviour:
   letter: 69
   isUppercase: 1
   letterSprite: {fileID: 21300000, guid: 81047df6284ce4c149fe49e36797039a, type: 3}
-  bubbleColor: 3
+  bubbleColor: 2
   bubbleLayout: {fileID: 11400000, guid: 243da1b287b43436d9cd4de7dbb26d44, type: 2}

@@ -329,8 +329,9 @@ MonoBehaviour:
   gameplayPanel: {fileID: 767733407}
   capitalButton: {fileID: 627317434}
   smallButton: {fileID: 1845522555}
+  homeButton: {fileID: 1907159654}
   infoButton: {fileID: 975511177}
-  infoPanel: {fileID: 0}
+  infoPanel: {fileID: 2089592036}
 --- !u!114 &165463708
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -451,7 +452,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 591005788061044161, guid: 2cf68ba5a653ec04194bf4b03c99086e, type: 3}
       propertyPath: idleTime
-      value: 3
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 5779568525153180081, guid: 2cf68ba5a653ec04194bf4b03c99086e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -499,7 +500,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6179992109632003683, guid: 2cf68ba5a653ec04194bf4b03c99086e, type: 3}
       propertyPath: m_IsActive
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7002356969415556465, guid: 2cf68ba5a653ec04194bf4b03c99086e, type: 3}
       propertyPath: m_LocalPosition.x
@@ -2741,7 +2742,7 @@ GameObject:
   - component: {fileID: 1907159655}
   - component: {fileID: 1907159654}
   m_Layer: 0
-  m_Name: InfoButton (1)
+  m_Name: HomeButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2892,6 +2893,11 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &2089592036 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3377048981869229782, guid: ac1e365c6362d934486e55b1fe76df97, type: 3}
+  m_PrefabInstance: {fileID: 1485153614}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

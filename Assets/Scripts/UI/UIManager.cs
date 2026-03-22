@@ -53,7 +53,7 @@ public class UIManager : MonoBehaviour
     // ------------------------------------------------------------------ //
     //  Unity lifecycle
     // ------------------------------------------------------------------ //
-    private void Start()
+    private void Awake()
     {
         BuildTray();
 
