@@ -244,10 +244,10 @@ public class GameManager : MonoBehaviour
         _completedFlags[_currentIndex] = true;
         SaveProgress();
 
-        StartCoroutine(AnimateAlphabetAndAdvance(completedData));
+        StartCoroutine(AnimateAlphabetAndAdvance(completedData, _currentIndex));
     }
 
-    private IEnumerator AnimateAlphabetAndAdvance(LetterData data)
+    private IEnumerator AnimateAlphabetAndAdvance(LetterData data, int completedIndex)
     {
         if (!_animationInitialized && jiggleLetterObject != null)
         {
@@ -323,7 +323,7 @@ public class GameManager : MonoBehaviour
         animObj.transform.rotation = originalRotation;
 
         // Move Phase
-        RectTransform targetRect = uiManager != null ? uiManager.GetLetterTargetRect(_currentIndex) : null;
+        RectTransform targetRect = uiManager != null ? uiManager.GetLetterTargetRect(completedIndex) : null;
         if (targetRect != null)
         {
             Vector3 moveStart = animObj.transform.position;
@@ -389,14 +389,17 @@ public class GameManager : MonoBehaviour
             animObj.SetActive(false);
 
         if (uiManager != null)
-            uiManager.MarkLetterComplete(_currentIndex);
+            uiManager.MarkLetterComplete(completedIndex);
 
         yield return new WaitForSeconds(0.2f);
         
-        // Cycle: after Z go back to A
-        int next = (_currentIndex + 1) % 26;
-        _currentIndex = next;
-        LoadLetter(next);
+        // Cycle: after Z go back to A (only if the player hasn't manually selected another letter)
+        if (_currentIndex == completedIndex)
+        {
+            int next = (completedIndex + 1) % 26;
+            _currentIndex = next;
+            LoadLetter(next);
+        }
     }
 
     /// <summary>

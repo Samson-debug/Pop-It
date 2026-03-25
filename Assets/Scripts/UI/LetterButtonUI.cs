@@ -58,6 +58,8 @@ public class LetterButtonUI : MonoBehaviour
     {
         if (letterImage != null)
             letterImage.color = active ? ActiveColor : DimColor;
+            
+        transform.localScale = active ? new Vector3(1.2f, 1.2f, 1.2f) : Vector3.one;
     }
 
     /// <summary>Show or hide the green checkmark overlay.</summary>

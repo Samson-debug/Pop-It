@@ -45,6 +45,10 @@ public class LetterPuzzle : MonoBehaviour
     [Tooltip("How much the puzzle scales down on each tap (e.g. 0.92 = 92%).")]
     public float puzzlePunchScale = 0.97f;
 
+    [Header("Input Options")]
+    [Tooltip("Radius for overlap check when popping bubbles.")]
+    public float popRadius = 0.5f;
+
     // ------------------------------------------------------------------ //
     //  Private state
     // ------------------------------------------------------------------ //
@@ -155,20 +159,52 @@ public class LetterPuzzle : MonoBehaviour
 
     /// <summary>
     /// Receives world-space tap position from InputHandler.
-    /// Uses Physics2D.OverlapPoint to find the bubble collider at that position.
+    /// Uses Physics2D.OverlapCircleAll on mobile, and OverlapPoint otherwise.
     /// </summary>
     private void HandleTap(Vector2 worldPos)
     {
         // Ignore taps during the completion coroutine to prevent re-entry
         if (_completing) return;
 
-        Collider2D hit = Physics2D.OverlapPoint(worldPos);
-        if (hit == null) return;
+        bool isMobile = Application.isMobilePlatform || SystemInfo.deviceType == DeviceType.Handheld;
+        Bubble closestBubble = null;
 
-        Bubble bubble = hit.GetComponent<Bubble>();
-        if (bubble == null || !_bubbles.Contains(bubble)) return;
+        if (isMobile)
+        {
+            Collider2D[] hits = Physics2D.OverlapCircleAll(worldPos, popRadius);
+            float minDistanceSq = float.MaxValue;
 
-        bubble.TryPop();
+            foreach (Collider2D hit in hits)
+            {
+                Bubble bubble = hit.GetComponent<Bubble>();
+                if (bubble != null && _bubbles.Contains(bubble))
+                {
+                    Vector2 closestPoint = hit.ClosestPoint(worldPos);
+                    float distSq = (worldPos - closestPoint).sqrMagnitude;
+                    if (distSq < minDistanceSq)
+                    {
+                        minDistanceSq = distSq;
+                        closestBubble = bubble;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Collider2D hit = Physics2D.OverlapPoint(worldPos);
+            if (hit != null)
+            {
+                Bubble bubble = hit.GetComponent<Bubble>();
+                if (bubble != null && _bubbles.Contains(bubble))
+                {
+                    closestBubble = bubble;
+                }
+            }
+        }
+
+        if (closestBubble == null) return;
+
+        closestBubble.TryPop();
 
         // Animate the whole puzzle on every tap
         if (_puzzleAnim != null) StopCoroutine(_puzzleAnim);

@@ -170,3 +170,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::LetterPuzzle
   letterBackground: {fileID: 5356515703226322696}
   bubblesContainer: {fileID: 8961884303739515334}
+  puzzlePunchScale: 0.97
+  popRadius: 0.13

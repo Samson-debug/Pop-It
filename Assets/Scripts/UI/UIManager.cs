@@ -37,13 +37,6 @@ public class UIManager : MonoBehaviour
     [Tooltip("Button that switches to lowercase mode.")]
     public Button lowercaseButton;
 
-    [Header("Info Panel")]
-    [Tooltip("Top-right info button.")]
-    public Button infoButton;
-
-    [Tooltip("Panel GameObject shown/hidden when info button is tapped.")]
-    public GameObject infoPanel;
-
     // ------------------------------------------------------------------ //
     //  Private state
     // ------------------------------------------------------------------ //
@@ -63,13 +56,6 @@ public class UIManager : MonoBehaviour
 
         if (lowercaseButton != null)
             lowercaseButton.onClick.AddListener(() => GameManager.Instance.SetMode(false));
-
-        // Info panel toggle
-        if (infoButton != null)
-            infoButton.onClick.AddListener(ToggleInfoPanel);
-
-        if (infoPanel != null)
-            infoPanel.SetActive(false);
     }
 
     // ------------------------------------------------------------------ //
@@ -181,11 +167,5 @@ public class UIManager : MonoBehaviour
 
             _letterButtons[i] = lb;
         }
-    }
-
-    private void ToggleInfoPanel()
-    {
-        if (infoPanel != null)
-            infoPanel.SetActive(!infoPanel.activeSelf);
     }
 }

@@ -14,9 +14,6 @@ public class InfoPanel : MonoBehaviour
     private Animator anim; // Reference to the Info Panel GameObject
 
 
-    [SerializeField]
-    private float popupoff = 0.5f; // Duration for the popup animation
-
     private float timestore; // Duration for the popup animation
 
     private void Awake()
@@ -28,11 +25,20 @@ public class InfoPanel : MonoBehaviour
     {
         infoBtn.onClick.AddListener(infodo);
     }
-
+    
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape)){
+            Debug.Log("Escape");
+            StartCoroutine(off());
+        }
+    }
+    
     public void infodo()
     {
         Debug.Log("infodo");
         infopanel.SetActive(true);
+        if (anim != null) anim.Play("Open");
         OnpauseFun();
     }
 
@@ -44,8 +50,7 @@ public class InfoPanel : MonoBehaviour
 
     public void OFFpauseFun()
     {
-        Time.timeScale = 1;
-
+        Time.timeScale = timestore;
     }
 
     public void undoinfodo()
@@ -57,8 +62,19 @@ public class InfoPanel : MonoBehaviour
 
     IEnumerator off()
     {
-        Debug.Log("Info Panel Closing Animation Started");
-        yield return new WaitForSecondsRealtime(popupoff);
+        if (!infopanel.activeSelf) yield break;
+        
+        float waitTime = 0.5f; // fallback
+
+        if (anim != null) 
+        {
+            anim.Play("Close");
+            anim.Update(0f); // Force Animator state update
+            waitTime = anim.GetCurrentAnimatorStateInfo(0).length;
+        }
+
+        Debug.Log("Info Panel Closing Animation Started. Expected duration: " + waitTime);
+        yield return new WaitForSecondsRealtime(waitTime);
         Debug.Log("Info Panel Closing Animation Ended");
         OFFpauseFun();
         infopanel.SetActive(false);

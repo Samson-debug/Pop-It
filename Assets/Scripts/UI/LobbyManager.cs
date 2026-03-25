@@ -1,4 +1,3 @@
-using System;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -53,10 +52,6 @@ public class LobbyManager : MonoBehaviour
     [Tooltip("Button that returns to the lobby.")]
     public Button homeButton;
 
-    [Header("Info Panel (shared between lobby and gameplay)")]
-    public Button infoButton;
-    public GameObject infoPanel;
-
     // ------------------------------------------------------------------ //
     //  Unity lifecycle
     // ------------------------------------------------------------------ //
@@ -74,12 +69,6 @@ public class LobbyManager : MonoBehaviour
 
         if (homeButton != null)
             homeButton.onClick.AddListener(OnHomePressed);
-
-        if (infoButton != null)
-            infoButton.onClick.AddListener(ToggleInfoPanel);
-
-        if (infoPanel != null)
-            infoPanel.SetActive(false);
     }
 
     // ------------------------------------------------------------------ //
@@ -130,11 +119,5 @@ public class LobbyManager : MonoBehaviour
         else
             Debug.LogError("[LobbyManager] GameManager.Instance is null. " +
                            "Make sure GameManager is in the scene.");
-    }
-
-    private void ToggleInfoPanel()
-    {
-        if (infoPanel != null)
-            infoPanel.SetActive(!infoPanel.activeSelf);
     }
 }
