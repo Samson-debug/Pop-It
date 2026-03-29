@@ -202,11 +202,11 @@ public class LetterPuzzle : MonoBehaviour
             }
         }
 
-        if (closestBubble == null) return;
+        if (closestBubble == null || closestBubble.IsPopped) return;
 
         closestBubble.TryPop();
 
-        // Animate the whole puzzle on every tap
+        // Animate the whole puzzle on every successful pop
         if (_puzzleAnim != null) StopCoroutine(_puzzleAnim);
         _puzzleAnim = StartCoroutine(PuzzleScalePunch());
     }

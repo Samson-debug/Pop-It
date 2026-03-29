@@ -5,9 +5,8 @@ using UnityEngine;
 /// <summary>
 /// Represents one pop-it bubble on the letter board.
 ///
-/// Bubbles default to "popped out" (raised). Tapping toggles between
-/// popped-in (depressed) and popped-out (raised). A punch-scale animation
-/// and haptic feedback fire on every tap.
+/// Bubbles default to "popped out" (raised). Tapping pops them in (depressed).
+/// A punch-scale animation and haptic feedback fire on every pop.
 ///
 /// Attach to a GameObject that also has:
 ///   - SpriteRenderer   (displays raised / depressed state)
@@ -89,34 +88,33 @@ public class Bubble : MonoBehaviour
     // ------------------------------------------------------------------ //
 
     /// <summary>
-    /// Toggle this bubble between popped-in and popped-out.
-    /// Fires a punch-scale animation and haptic feedback on every tap.
+    /// Pops the bubble. Only works if the bubble is not already popped.
+    /// Fires a punch-scale animation and haptic feedback.
     /// </summary>
     public void TryPop()
     {
-        // Toggle state
-        IsPopped = !IsPopped;
+        if (IsPopped) return;
+
+        // State is now popped
+        IsPopped = true;
 
         // Visual: switch sprite to match new state
-        _sr.sprite = IsPopped ? poppedSprite : unpoppedSprite;
+        _sr.sprite = poppedSprite;
 
-        // Audio: play pop sound (works for both directions)
+        // Audio: play pop sound
         if (audioSource != null && audioSource.clip != null)
             audioSource.Play();
 
-        // Squash & stretch animation (direction-aware)
+        // Squash & stretch animation
         if (_punchCoroutine != null)
             StopCoroutine(_punchCoroutine);
-        _punchCoroutine = StartCoroutine(SquashAndStretch(IsPopped));
+        _punchCoroutine = StartCoroutine(SquashAndStretch(true));
 
         // Haptic feedback
         TriggerHaptic();
 
         // Notify listeners
-        if (IsPopped)
-            OnPopped?.Invoke(this);
-        else
-            OnUnpopped?.Invoke(this);
+        OnPopped?.Invoke(this);
 
         OnAnyBubblePopped?.Invoke();
     }
